@@ -42,6 +42,18 @@ namespace RestAspNet5.Controllers
             return BadRequest("Invalid Input");
         }
 
+        [HttpGet("times/{firstNumber}/{secondNumber}")]
+        public IActionResult Times(string firstNumber, string secondNumber)
+        {
+            if (IsNumeric(firstNumber) && IsNumeric(secondNumber))
+            {
+                var sum = ConvertToDecimal(firstNumber) * ConvertToDecimal(secondNumber);
+                return Ok(sum.ToString());
+            }
+
+            return BadRequest("Invalid Input");
+        }
+
         private decimal ConvertToDecimal(string strValue)
         {
             if (decimal.TryParse(strValue, out decimal value))
