@@ -23,8 +23,8 @@ namespace RestAspNet5.Controllers
         {
             if (IsNumeric(firstNumber) && IsNumeric(secondNumber))
             {
-                var sum = ConvertToDecimal(firstNumber) + ConvertToDecimal(secondNumber);
-                return Ok(sum.ToString());
+                var result = ConvertToDecimal(firstNumber) + ConvertToDecimal(secondNumber);
+                return Ok(result.ToString());
             }
 
             return BadRequest("Invalid Input");
@@ -35,8 +35,8 @@ namespace RestAspNet5.Controllers
         {
             if (IsNumeric(firstNumber) && IsNumeric(secondNumber))
             {
-                var sum = ConvertToDecimal(firstNumber) - ConvertToDecimal(secondNumber);
-                return Ok(sum.ToString());
+                var result = ConvertToDecimal(firstNumber) - ConvertToDecimal(secondNumber);
+                return Ok(result.ToString());
             }
 
             return BadRequest("Invalid Input");
@@ -47,8 +47,20 @@ namespace RestAspNet5.Controllers
         {
             if (IsNumeric(firstNumber) && IsNumeric(secondNumber))
             {
-                var sum = ConvertToDecimal(firstNumber) * ConvertToDecimal(secondNumber);
-                return Ok(sum.ToString());
+                var result = ConvertToDecimal(firstNumber) * ConvertToDecimal(secondNumber);
+                return Ok(result.ToString());
+            }
+
+            return BadRequest("Invalid Input");
+        }
+
+        [HttpGet("avg/{firstNumber}/{secondNumber}")]
+        public IActionResult Average(string firstNumber, string secondNumber)
+        {
+            if (IsNumeric(firstNumber) && IsNumeric(secondNumber))
+            {
+                var result = (ConvertToDecimal(firstNumber) + ConvertToDecimal(secondNumber)) / 2;
+                return Ok(result.ToString());
             }
 
             return BadRequest("Invalid Input");
