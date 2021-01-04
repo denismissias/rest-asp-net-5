@@ -66,6 +66,18 @@ namespace RestAspNet5.Controllers
             return BadRequest("Invalid Input");
         }
 
+        [HttpGet("sqrt/{number}")]
+        public IActionResult SquareRoot(string number)
+        {
+            if (IsNumeric(number))
+            {
+                var result = Math.Sqrt((double)ConvertToDecimal(number));
+                return Ok(result.ToString());
+            }
+
+            return BadRequest("Invalid Input");
+        }
+
         private decimal ConvertToDecimal(string strValue)
         {
             if (decimal.TryParse(strValue, out decimal value))
