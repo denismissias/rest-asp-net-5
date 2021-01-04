@@ -54,6 +54,18 @@ namespace RestAspNet5.Controllers
             return BadRequest("Invalid Input");
         }
 
+        [HttpGet("div/{firstNumber}/{secondNumber}")]
+        public IActionResult Divide(string firstNumber, string secondNumber)
+        {
+            if (IsNumeric(firstNumber) && IsNumeric(secondNumber))
+            {
+                var result = ConvertToDecimal(firstNumber) / ConvertToDecimal(secondNumber);
+                return Ok(result.ToString());
+            }
+
+            return BadRequest("Invalid Input");
+        }
+
         [HttpGet("avg/{firstNumber}/{secondNumber}")]
         public IActionResult Average(string firstNumber, string secondNumber)
         {
