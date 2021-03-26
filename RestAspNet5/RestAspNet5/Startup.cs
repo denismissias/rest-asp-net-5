@@ -31,6 +31,7 @@ namespace RestAspNet5
         {
             var connection = Configuration["MySQLConnection:MySQLConnectionString"];
 
+            services.AddApiVersioning();
             services.AddControllers();
             services.AddDbContext<MySQLContext>(options => options.UseMySql(connection, ServerVersion.AutoDetect(connection)));
             services.AddScoped<IPersonService, PersonService>();

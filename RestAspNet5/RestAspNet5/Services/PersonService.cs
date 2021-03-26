@@ -21,9 +21,9 @@ namespace RestAspNet5.Service
                 _context.Add(person);
                 _context.SaveChanges();
             }
-            catch (System.Exception ex)
+            catch (System.Exception)
             {
-                throw ex;
+                throw;
             }
 
             return person;
@@ -41,9 +41,9 @@ namespace RestAspNet5.Service
                     _context.SaveChanges();
                 }
             }
-            catch (System.Exception ex)
+            catch (System.Exception)
             {
-                throw ex;
+                throw;
             }
         }
 
@@ -69,9 +69,9 @@ namespace RestAspNet5.Service
                 _context.Entry(currentPerson).CurrentValues.SetValues(person);
                 _context.SaveChanges();
             }
-            catch (System.Exception ex)
+            catch (System.Exception)
             {
-                throw ex;
+                throw;
             }
 
             return person;

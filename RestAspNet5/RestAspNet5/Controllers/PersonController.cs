@@ -6,8 +6,9 @@ using RestAspNet5.Service;
 
 namespace RestAspNet5.Controllers
 {
+    [ApiVersion("1")]
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]/v{version:apiVersion}")]
     public class PersonController : ControllerBase
     {
         public IPersonService _personService { get; set; }
