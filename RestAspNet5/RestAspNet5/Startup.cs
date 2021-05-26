@@ -13,6 +13,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using RestAspNet5.Model.Context;
+using RestAspNet5.Repository;
 using RestAspNet5.Service;
 
 namespace RestAspNet5
@@ -34,6 +35,7 @@ namespace RestAspNet5
             services.AddApiVersioning();
             services.AddControllers();
             services.AddDbContext<MySQLContext>(options => options.UseMySql(connection, ServerVersion.AutoDetect(connection)));
+            services.AddScoped<IPersonRepository, PersonRepository>();
             services.AddScoped<IPersonService, PersonService>();
             services.AddSwaggerGen(c =>
             {

@@ -2,84 +2,42 @@ using System.Collections.Generic;
 using RestAspNet5.Model;
 using RestAspNet5.Model.Context;
 using System.Linq;
+using RestAspNet5.Repository;
 
 namespace RestAspNet5.Service
 {
     public class PersonService : IPersonService
     {
-        MySQLContext _context;
+        private readonly IPersonRepository _personRepository;
 
-        public PersonService(MySQLContext context)
+        public PersonService(IPersonRepository personRepository)
         {
-            _context = context;
+            _personRepository = personRepository;
         }
 
         public Person Create(Person person)
         {
-            try
-            {
-                _context.Add(person);
-                _context.SaveChanges();
-            }
-            catch (System.Exception)
-            {
-                throw;
-            }
-
-            return person;
+            return _personRepository.Create(person);
         }
 
         public void Delete(long id)
         {
-            try
-            {
-                Person currentPerson = GetPersonById(id);
-
-                if (currentPerson != null)
-                {
-                    _context.People.Remove(currentPerson);
-                    _context.SaveChanges();
-                }
-            }
-            catch (System.Exception)
-            {
-                throw;
-            }
+            _personRepository.Delete(id);
         }
 
         public List<Person> Get()
         {
-            return _context.People.ToList();
+            return _personRepository.Get();
         }
 
         public Person GetById(long id)
         {
-            return GetPersonById(id);
+            return _personRepository.GetById(id);
         }
 
         public Person Update(Person person)
         {
-            try
-            {
-                Person currentPerson = GetPersonById(person.Id);
-
-                if (currentPerson == null)
-                    return null;
-
-                _context.Entry(currentPerson).CurrentValues.SetValues(person);
-                _context.SaveChanges();
-            }
-            catch (System.Exception)
-            {
-                throw;
-            }
-
-            return person;
-        }
-
-        private Person GetPersonById(long id)
-        {
-            return _context.People.SingleOrDefault(p => p.Id == id);
+            return _personRepository.Update(person);
         }
     }
 }
