@@ -1,7 +1,6 @@
-using System;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using RestAspNet5.Model;
+using RestAspNet5.Resources;
 using RestAspNet5.Service;
 
 namespace RestAspNet5.Controllers
@@ -29,7 +28,7 @@ namespace RestAspNet5.Controllers
         [HttpGet("{id}")]
         public IActionResult Get(long id)
         {
-            Person person = _personService.GetById(id);
+            PersonResource person = _personService.GetById(id);
 
             if (person == null)
                 return NotFound();
@@ -38,7 +37,7 @@ namespace RestAspNet5.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post([FromBody] Person person)
+        public IActionResult Post([FromBody] PersonResource person)
         {
             if (person == null)
                 return BadRequest();
@@ -47,7 +46,7 @@ namespace RestAspNet5.Controllers
         }
 
         [HttpPut]
-        public IActionResult Put([FromBody] Person person)
+        public IActionResult Put([FromBody] PersonResource person)
         {
             if (person == null)
                 return BadRequest();

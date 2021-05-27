@@ -1,17 +1,18 @@
 using System.Collections.Generic;
 using RestAspNet5.Model;
+using RestAspNet5.Resources;
 
 namespace RestAspNet5.Service
 {
     public interface IPersonService
     {
-        List<Person> Get();
+        List<PersonResource> Get();
 
-        Person GetById(long id);
+        PersonResource GetById(long id);
 
-        Person Create(Person person);
+        PersonResource Create(PersonResource person);
 
-        Person Update(Person person);
+        PersonResource Update(PersonResource person);
 
         void Delete(long id);
     }

@@ -2,6 +2,7 @@ using System;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using RestAspNet5.Model;
+using RestAspNet5.Resources;
 using RestAspNet5.Service;
 
 namespace RestAspNet5.Controllers
@@ -29,7 +30,7 @@ namespace RestAspNet5.Controllers
         [HttpGet("{id}")]
         public IActionResult Get(long id)
         {
-            Book book = _bookService.GetById(id);
+            BookResource book = _bookService.GetById(id);
 
             if (book == null)
                 return NotFound();
@@ -38,7 +39,7 @@ namespace RestAspNet5.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post([FromBody] Book book)
+        public IActionResult Post([FromBody] BookResource book)
         {
             if (book == null)
                 return BadRequest();
@@ -47,7 +48,7 @@ namespace RestAspNet5.Controllers
         }
 
         [HttpPut]
-        public IActionResult Put([FromBody] Book book)
+        public IActionResult Put([FromBody] BookResource book)
         {
             if (book == null)
                 return BadRequest();

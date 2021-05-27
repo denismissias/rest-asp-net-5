@@ -1,17 +1,17 @@
 using System.Collections.Generic;
-using RestAspNet5.Model;
+using RestAspNet5.Resources;
 
 namespace RestAspNet5.Service
 {
     public interface IBookService
     {
-        List<Book> Get();
+        List<BookResource> Get();
 
-        Book GetById(long id);
+        BookResource GetById(long id);
 
-        Book Create(Book person);
+        BookResource Create(BookResource person);
 
-        Book Update(Book person);
+        BookResource Update(BookResource person);
 
         void Delete(long id);
     }

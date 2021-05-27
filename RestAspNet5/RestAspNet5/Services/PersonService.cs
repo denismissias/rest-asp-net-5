@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using RestAspNet5.Model;
-using RestAspNet5.Model.Context;
-using System.Linq;
 using RestAspNet5.Repository;
+using RestAspNet5.Mapper;
+using RestAspNet5.Resources;
 
 namespace RestAspNet5.Service
 {
@@ -10,14 +10,20 @@ namespace RestAspNet5.Service
     {
         private readonly IRepository<Person> _personRepository;
 
-        public PersonService(IRepository<Person> personRepository)
+        private readonly IMapper<PersonResource, Person> _resourceToModelMapper;
+
+        private readonly IMapper<Person, PersonResource> _modelToResourceMapper;
+
+        public PersonService(IRepository<Person> personRepository, IMapper<PersonResource, Person> resourceToModelMapper, IMapper<Person, PersonResource> modelToResourceMapper)
         {
             _personRepository = personRepository;
+            _resourceToModelMapper = resourceToModelMapper;
+            _modelToResourceMapper = modelToResourceMapper;
         }
 
-        public Person Create(Person person)
+        public PersonResource Create(PersonResource person)
         {
-            return _personRepository.Create(person);
+            return _modelToResourceMapper.Map(_personRepository.Create(_resourceToModelMapper.Map(person)));
         }
 
         public void Delete(long id)
@@ -25,19 +31,19 @@ namespace RestAspNet5.Service
             _personRepository.Delete(id);
         }
 
-        public List<Person> Get()
+        public List<PersonResource> Get()
         {
-            return _personRepository.Get();
+            return _modelToResourceMapper.Map(_personRepository.Get());
         }
 
-        public Person GetById(long id)
+        public PersonResource GetById(long id)
         {
-            return _personRepository.GetById(id);
+            return _modelToResourceMapper.Map(_personRepository.GetById(id));
         }
 
-        public Person Update(Person person)
+        public PersonResource Update(PersonResource person)
         {
-            return _personRepository.Update(person);
+            return _modelToResourceMapper.Map(_personRepository.Update(_resourceToModelMapper.Map(person)));
         }
     }
 }

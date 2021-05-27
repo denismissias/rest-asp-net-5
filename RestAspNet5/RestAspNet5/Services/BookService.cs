@@ -3,6 +3,8 @@ using RestAspNet5.Model;
 using RestAspNet5.Model.Context;
 using System.Linq;
 using RestAspNet5.Repository;
+using RestAspNet5.Mapper;
+using RestAspNet5.Resources;
 
 namespace RestAspNet5.Service
 {
@@ -10,14 +12,20 @@ namespace RestAspNet5.Service
     {
         private readonly IRepository<Book> _bookRepository;
 
-        public BookService(IRepository<Book> bookRepository)
+        private readonly IMapper<BookResource, Book> _resourceToModelMapper;
+
+        private readonly IMapper<Book, BookResource> _modelToResourceMapper;
+
+        public BookService(IRepository<Book> bookRepository, IMapper<BookResource, Book> resourceToModelMapper, IMapper<Book, BookResource> modelToResourceMapper)
         {
             _bookRepository = bookRepository;
+            _resourceToModelMapper = resourceToModelMapper;
+            _modelToResourceMapper = modelToResourceMapper;
         }
 
-        public Book Create(Book book)
+        public BookResource Create(BookResource book)
         {
-            return _bookRepository.Create(book);
+            return _modelToResourceMapper.Map(_bookRepository.Create(_resourceToModelMapper.Map(book)));
         }
 
         public void Delete(long id)
@@ -25,19 +33,19 @@ namespace RestAspNet5.Service
             _bookRepository.Delete(id);
         }
 
-        public List<Book> Get()
+        public List<BookResource> Get()
         {
-            return _bookRepository.Get();
+            return _modelToResourceMapper.Map(_bookRepository.Get());
         }
 
-        public Book GetById(long id)
+        public BookResource GetById(long id)
         {
-            return _bookRepository.GetById(id);
+            return _modelToResourceMapper.Map(_bookRepository.GetById(id));
         }
 
-        public Book Update(Book book)
+        public BookResource Update(BookResource book)
         {
-            return _bookRepository.Update(book);
+            return _modelToResourceMapper.Map(_bookRepository.Update(_resourceToModelMapper.Map(book)));
         }
     }
 }

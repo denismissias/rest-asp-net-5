@@ -8,10 +8,13 @@ using Microsoft.OpenApi.Models;
 using MySqlConnector;
 using RestAspNet5.Model.Context;
 using RestAspNet5.Repository;
+using RestAspNet5.Mapper;
 using RestAspNet5.Service;
 using Serilog;
 using System;
 using System.Collections.Generic;
+using RestAspNet5.Resources;
+using RestAspNet5.Model;
 
 namespace RestAspNet5
 {
@@ -44,6 +47,10 @@ namespace RestAspNet5
             services.AddApiVersioning();
             services.AddControllers();
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+            services.AddScoped(typeof(IMapper<PersonResource, Person>), typeof(PersonMapper<PersonResource, Person>));
+            services.AddScoped(typeof(IMapper<Person, PersonResource>), typeof(PersonMapper<Person, PersonResource>));
+            services.AddScoped(typeof(IMapper<BookResource, Book>), typeof(BookMapper<BookResource, Book>));
+            services.AddScoped(typeof(IMapper<Book, BookResource>), typeof(BookMapper<Book, BookResource>));
             services.AddScoped<IPersonService, PersonService>();
             services.AddScoped<IBookService, BookService>();
             services.AddSwaggerGen(c =>
