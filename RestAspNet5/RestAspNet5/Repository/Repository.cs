@@ -2,23 +2,27 @@ using System.Collections.Generic;
 using RestAspNet5.Model;
 using RestAspNet5.Model.Context;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace RestAspNet5.Repository
 {
-    public class PersonRepository : IPersonRepository
+    public class Repository<T> : IRepository<T> where T : Entity
     {
         MySQLContext _context;
 
-        public PersonRepository(MySQLContext context)
+        private DbSet<T> dataset;
+
+        public Repository(MySQLContext context)
         {
             _context = context;
+            dataset = _context.Set<T>();
         }
 
-        public Person Create(Person person)
+        public T Create(T entity)
         {
             try
             {
-                _context.Add(person);
+                dataset.Add(entity);
                 _context.SaveChanges();
             }
             catch (System.Exception)
@@ -26,18 +30,18 @@ namespace RestAspNet5.Repository
                 throw;
             }
 
-            return person;
+            return entity;
         }
 
         public void Delete(long id)
         {
             try
             {
-                Person currentPerson = GetPersonById(id);
+                T currentEntity = GetEntityById(id);
 
-                if (currentPerson != null)
+                if (currentEntity != null)
                 {
-                    _context.People.Remove(currentPerson);
+                    dataset.Remove(currentEntity);
                     _context.SaveChanges();
                 }
             }
@@ -47,26 +51,26 @@ namespace RestAspNet5.Repository
             }
         }
 
-        public List<Person> Get()
+        public List<T> Get()
         {
-            return _context.People.ToList();
+            return dataset.ToList();
         }
 
-        public Person GetById(long id)
+        public T GetById(long id)
         {
-            return GetPersonById(id);
+            return GetEntityById(id);
         }
 
-        public Person Update(Person person)
+        public T Update(T entity)
         {
             try
             {
-                Person currentPerson = GetPersonById(person.Id);
+                T currentEntity = GetEntityById(entity.Id);
 
-                if (currentPerson == null)
+                if (currentEntity == null)
                     return null;
 
-                _context.Entry(currentPerson).CurrentValues.SetValues(person);
+                _context.Entry(currentEntity).CurrentValues.SetValues(entity);
                 _context.SaveChanges();
             }
             catch (System.Exception)
@@ -74,12 +78,12 @@ namespace RestAspNet5.Repository
                 throw;
             }
 
-            return person;
+            return entity;
         }
 
-        private Person GetPersonById(long id)
+        private T GetEntityById(long id)
         {
-            return _context.People.SingleOrDefault(p => p.Id == id);
+            return dataset.SingleOrDefault(p => p.Id == id);
         }
     }
 }

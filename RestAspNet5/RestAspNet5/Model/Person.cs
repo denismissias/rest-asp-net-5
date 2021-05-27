@@ -3,11 +3,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace RestAspNet5.Model
 {
     [Table("person")]
-    public class Person
+    public class Person : Entity
     {
-        [Column("id")]
-        public long Id { get; set; }
-
         [Column("first_name")]
         public string FirstName { get; set; }
 

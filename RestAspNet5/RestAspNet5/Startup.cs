@@ -43,8 +43,9 @@ namespace RestAspNet5
 
             services.AddApiVersioning();
             services.AddControllers();
-            services.AddScoped<IPersonRepository, PersonRepository>();
+            services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddScoped<IPersonService, PersonService>();
+            services.AddScoped<IBookService, BookService>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "RestAspNet5", Version = "v1" });
