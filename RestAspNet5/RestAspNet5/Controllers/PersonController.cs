@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using RestAspNet5.Hypermedia;
 using RestAspNet5.Resources;
 using RestAspNet5.Service;
 
@@ -20,12 +21,14 @@ namespace RestAspNet5.Controllers
         }
 
         [HttpGet]
+        [TypeFilter(typeof(HypermediaFilter))]
         public IActionResult Get()
         {
             return Ok(_personService.Get());
         }
 
         [HttpGet("{id}")]
+        [TypeFilter(typeof(HypermediaFilter))]
         public IActionResult Get(long id)
         {
             PersonResource person = _personService.GetById(id);
@@ -37,6 +40,7 @@ namespace RestAspNet5.Controllers
         }
 
         [HttpPost]
+        [TypeFilter(typeof(HypermediaFilter))]
         public IActionResult Post([FromBody] PersonResource person)
         {
             if (person == null)
@@ -46,6 +50,7 @@ namespace RestAspNet5.Controllers
         }
 
         [HttpPut]
+        [TypeFilter(typeof(HypermediaFilter))]
         public IActionResult Put([FromBody] PersonResource person)
         {
             if (person == null)

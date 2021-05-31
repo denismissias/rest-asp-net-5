@@ -16,6 +16,7 @@ using System.Collections.Generic;
 using RestAspNet5.Resources;
 using RestAspNet5.Model;
 using Microsoft.Net.Http.Headers;
+using RestAspNet5.Hypermedia;
 
 namespace RestAspNet5
 {
@@ -52,6 +53,11 @@ namespace RestAspNet5
                 options.FormatterMappings.SetMediaTypeMappingForFormat("json", MediaTypeHeaderValue.Parse("application/json"));
             }).AddXmlSerializerFormatters();
 
+            var filterOptions = new HypermediaFilterOptions();
+            filterOptions.ContentResponseList.Add(new PersonResponse());
+
+            services.AddSingleton(filterOptions);
+
             services.AddApiVersioning();
             services.AddControllers();
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
@@ -86,6 +92,7 @@ namespace RestAspNet5
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapControllerRoute("DefaultApi", "{controller=values}/{id?}");
             });
         }
 
