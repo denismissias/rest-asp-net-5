@@ -17,7 +17,6 @@ using RestAspNet5.Resources;
 using RestAspNet5.Model;
 using Microsoft.Net.Http.Headers;
 using RestAspNet5.Hypermedia;
-using Microsoft.AspNetCore.Rewrite;
 
 namespace RestAspNet5
 {
@@ -76,6 +75,13 @@ namespace RestAspNet5
                 });
             });
 
+            services.AddCors(options => options.AddDefaultPolicy(builder =>
+            {
+                builder.AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader();
+            }));
+
             services.AddControllers();
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddScoped(typeof(IMapper<PersonResource, Person>), typeof(PersonMapper<PersonResource, Person>));
@@ -99,6 +105,8 @@ namespace RestAspNet5
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors();
 
             app.UseAuthorization();
 
