@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using RestAspNet5.Hypermedia;
@@ -21,6 +22,10 @@ namespace RestAspNet5.Controllers
         }
 
         [HttpGet]
+        [ProducesResponseType(200, Type = typeof(List<PersonResource>))]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
         [TypeFilter(typeof(HypermediaFilter))]
         public IActionResult Get()
         {
@@ -28,6 +33,10 @@ namespace RestAspNet5.Controllers
         }
 
         [HttpGet("{id}")]
+        [ProducesResponseType(200, Type = typeof(PersonResource))]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
         [TypeFilter(typeof(HypermediaFilter))]
         public IActionResult Get(long id)
         {
@@ -40,6 +49,10 @@ namespace RestAspNet5.Controllers
         }
 
         [HttpPost]
+        [ProducesResponseType(200, Type = typeof(PersonResource))]
+        [ProducesResponseType(201, Type = typeof(PersonResource))]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
         [TypeFilter(typeof(HypermediaFilter))]
         public IActionResult Post([FromBody] PersonResource person)
         {
@@ -50,6 +63,9 @@ namespace RestAspNet5.Controllers
         }
 
         [HttpPut]
+        [ProducesResponseType(200, Type = typeof(PersonResource))]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
         [TypeFilter(typeof(HypermediaFilter))]
         public IActionResult Put([FromBody] PersonResource person)
         {
@@ -60,6 +76,9 @@ namespace RestAspNet5.Controllers
         }
 
         [HttpDelete("{id}")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
         public IActionResult Delete(long id)
         {
             _personService.Delete(id);

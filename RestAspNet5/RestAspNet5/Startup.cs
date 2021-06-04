@@ -17,6 +17,7 @@ using RestAspNet5.Resources;
 using RestAspNet5.Model;
 using Microsoft.Net.Http.Headers;
 using RestAspNet5.Hypermedia;
+using Microsoft.AspNetCore.Rewrite;
 
 namespace RestAspNet5
 {
@@ -59,6 +60,22 @@ namespace RestAspNet5
             services.AddSingleton(filterOptions);
 
             services.AddApiVersioning();
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "API's toStudy",
+                    Version = "v1",
+                    Description = "API's to Study",
+                    Contact = new OpenApiContact
+                    {
+                        Name = "Denis Missias",
+                        Url = new Uri("https://github.com/denismissias")
+                    }
+                });
+            });
+
             services.AddControllers();
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddScoped(typeof(IMapper<PersonResource, Person>), typeof(PersonMapper<PersonResource, Person>));
@@ -67,10 +84,6 @@ namespace RestAspNet5
             services.AddScoped(typeof(IMapper<Book, BookResource>), typeof(BookMapper<Book, BookResource>));
             services.AddScoped<IPersonService, PersonService>();
             services.AddScoped<IBookService, BookService>();
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "RestAspNet5", Version = "v1" });
-            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
